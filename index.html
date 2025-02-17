@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Visualizer</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script src="script.js"></script>
+  <h1>Sorting Visualizer</h1>
+  <div class="array-container" id="array-container"></div>
+  <div class="controls">
+    <button onclick="generateArray()">Generate New Array</button>
+    <select id="algorithm-selector" onchange="displayComplexity()">
+      <option value="bubble">Bubble Sort</option>
+      <option value="selection">Selection Sort</option>
+      <option value="insertion">Insertion Sort</option>
+      <option value="merge">Merge Sort</option>
+      <option value="quick">Quick Sort</option>
+    </select>
+    <button onclick="startSorting()">Start Sorting</button>
+    <button id="pause-resume-btn" onclick="togglePauseResume()">Pause</button>
+  </div>
+  <div class="slider-container">
+    <div class="slider-label">Speed: <span id="speed-value">100</span>ms</div>
+    <input type="range" min="10" max="200" value="100" id="speed-slider" oninput="updateSpeed()">
+  </div>
+  <div class="slider-container">
+    <div class="slider-label">Array Size: <span id="size-value">20</span></div>
+    <input type="range" min="10" max="100" value="20" id="size-slider" oninput="updateArraySize()">
+  </div>
+  <div class="complexity-container" id="complexity-container">
+    <div class="complexity-item"><strong>Worst Case:</strong> O(n²)</div>
+    <div class="complexity-item"><strong>Average Case:</strong> O(n²)</div>
+    <div class="complexity-item"><strong>Best Case:</strong> O(n)</div>
+    <div class="complexity-item"><strong>Space Complexity:</strong> O(1)</div>
+  
+
+  
+  </body>
+</html>
