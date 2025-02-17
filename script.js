@@ -53,6 +53,85 @@ let array = [];
       }
       sorting = false;
     }
+    async function selectionSort() {
+        const bars = document.getElementsByClassName('bar');
+        for (let i = 0; i < bars.length; i++) {
+          let minIndex = i;
+          bars[i].style.backgroundColor = "#e74c3c";
+          for (let j = i + 1; j < bars.length; j++) {
+            if (paused) await waitForResume();
+            bars[j].style.backgroundColor = "#f1c40f";
+            if (parseInt(bars[j].style.height) < parseInt(bars[minIndex].style.height)) {
+              minIndex = j;
+            }
+            bars[j].style.backgroundColor = "#3498db";
+          }
+          await swapBars(bars[i], bars[minIndex]);
+          bars[i].style.backgroundColor = "#3498db";
+        }
+        sorting = false;
+      }
+  
+      async function insertionSort() {
+        const bars = document.getElementsByClassName('bar');
+        for (let i = 1; i < bars.length; i++) {
+          let j = i;
+          while (j > 0 && parseInt(bars[j].style.height) < parseInt(bars[j - 1].style.height)) {
+            if (paused) await waitForResume();
+            bars[j].style.backgroundColor = "#e74c3c";
+            bars[j - 1].style.backgroundColor = "#e74c3c";
+            await swapBars(bars[j], bars[j - 1]);
+            bars[j].style.backgroundColor = "#3498db";
+            bars[j - 1].style.backgroundColor = "#3498db";
+            j--;
+          }
+        }
+        sorting = false;
+      }
+  
+      async function mergeSort() {
+        await mergeSortHelper(0, array.length - 1);
+        sorting = false;
+      }
+  
+      async function mergeSortHelper(start, end) {
+        if (start >= end) return;
+        const mid = Math.floor((start + end) / 2);
+        await mergeSortHelper(start, mid);
+        await mergeSortHelper(mid + 1, end);
+        await merge(start, mid, end);
+      }
+  
+      async function merge(start, mid, end) {
+        const bars = document.getElementsByClassName('bar');
+        let temp = [];
+        let i = start, j = mid + 1;
+  
+        while (i <= mid && j <= end) {
+          if (parseInt(bars[i].style.height) <= parseInt(bars[j].style.height)) {
+            temp.push(parseInt(bars[i].style.height));
+            i++;
+          } else {
+            temp.push(parseInt(bars[j].style.height));
+            j++;
+          }
+        }
+        while (i <= mid) {
+          temp.push(parseInt(bars[i].style.height));
+          i++;
+        }
+        while (j <= end) {
+          temp.push(parseInt(bars[j].style.height));
+          j++;
+        }
+  
+        for (let k = start; k <= end; k++) {
+          bars[k].style.height = `${temp[k - start]}px`;
+          bars[k].style.backgroundColor = "#e74c3c";
+          await new Promise(resolve => setTimeout(resolve, delay));
+          bars[k].style.backgroundColor = "#3498db";
+        }
+      }
     async function swapBars(bar1, bar2) {
         return new Promise(resolve => {
           const tempHeight = bar1.style.height;
