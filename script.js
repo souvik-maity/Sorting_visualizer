@@ -132,6 +132,33 @@ let array = [];
           bars[k].style.backgroundColor = "#3498db";
         }
       }
+      async function quickSort() {
+        await quickSortHelper(0, array.length - 1);
+        sorting = false;
+      }
+  
+      async function quickSortHelper(start, end) {
+        if (start >= end) return;
+        const pivotIndex = await partition(start, end);
+        await quickSortHelper(start, pivotIndex - 1);
+        await quickSortHelper(pivotIndex + 1, end);
+      }
+  
+      async function partition(start, end) {
+        const bars = document.getElementsByClassName('bar');
+        const pivotValue = parseInt(bars[end].style.height);
+        bars[end].style.backgroundColor = "#e74c3c";
+        let i = start - 1;
+        for (let j = start; j < end; j++) {
+          if (parseInt(bars[j].style.height) < pivotValue) {
+            i++;
+            await swapBars(bars[i], bars[j]);
+          }
+        }
+        await swapBars(bars[i + 1], bars[end]);
+        bars[end].style.backgroundColor = "#3498db";
+        return i + 1;
+      }
     async function swapBars(bar1, bar2) {
         return new Promise(resolve => {
           const tempHeight = bar1.style.height;
